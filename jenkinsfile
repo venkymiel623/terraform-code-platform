@@ -1,16 +1,20 @@
 pipeline {
-    agent any
-    
+    agent any    
     environment {
         AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
     }
-    
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: 'Branch to build')
+    }
     stages {
         stage('Checkout') {
             steps {
+                script {
+                    def branchName = params.BRANCH ?: 'main' // Default branch is 'main' if not provided
+                    retry(3) { // Retry the checkout operation up to 3 times
                 // Checkout the repository using the specified credentials
-                git credentialsId: 'git-access', url: 'https://github.com/venkymiel623/terraform-code-platform.git'
+                git credentialsId: 'git-jenkins', url: 'https://github.com/venkymiel623/terraform-code-platform.git'
             }
         }
         
