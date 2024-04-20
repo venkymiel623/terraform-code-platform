@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the repository
-                git credentialsId: 'git-jenkins', url: 'https://github.com/venkymiel623/terraform-code-platform.git'
+                git credentialsId: 'git-access', url: 'https://github.com/venkymiel623/terraform-code-platform.git'
             }
         }
         
