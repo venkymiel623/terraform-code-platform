@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the repository
+                git credentialsId: 'git-jenkins', url: 'https://github.com/venkymiel623/terraform-code-platform.git'
+            }
+        }
+        
+        stage('Terraform Init') {
+            steps {
+                // Initialize Terraform
+                sh 'terraform init'
+            }
+        }
+        
+        stage('Terraform Plan') {
+            steps {
+                // Generate Terraform plan
+                sh 'terraform plan -out=tfplan'
+            }
+        }
+        
+        stage('Terraform Apply') {
+            steps {
+                // Apply Terraform changes
+                sh 'terraform apply -auto-approve tfplan'
+            }
+        }
+    }
+}
